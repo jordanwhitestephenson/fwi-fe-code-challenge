@@ -176,7 +176,7 @@ Response:
       "name": "Freddy Kruger",
       "country": "US",
       "winnings": 93024,
-      "imageUrl": "https://i.pravatar.cc/40?u=314c5ab7-ba9b-4821-adba-b4f9d92009db"
+      "imageUrl": "https://i.pravatar.cc/100?u=314c5ab7-ba9b-4821-adba-b4f9d92009db"
     },
     {
       "id": "70629df2-571a-4899-b36a-8f36c909508a",

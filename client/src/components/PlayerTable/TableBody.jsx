@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Flags from 'react-world-flags';
 
-import Avatar from '../Avatar';
-import { COUNTRIES } from '../constants';
+import Avatar from '../../Avatar';
+import { COUNTRIES } from '../../constants';
 
 const TableBody = ({ players }) => {
   return (

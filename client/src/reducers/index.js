@@ -6,4 +6,5 @@ import players from './players';
 export default combineReducers({
   playerIds,
   players,
+  // player: playerReducer
 });

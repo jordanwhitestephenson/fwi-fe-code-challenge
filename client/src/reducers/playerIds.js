@@ -1,4 +1,4 @@
-import { FETCH_PLAYERS_SUCCESS } from './constants';
+import { FETCH_PLAYERS_SUCCESS } from '../actions/types';
 
 export default function playerIds(state = [], action) {
   switch (action.type) {

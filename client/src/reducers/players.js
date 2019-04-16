@@ -1,4 +1,4 @@
-import { FETCH_PLAYERS_SUCCESS } from './constants';
+import { FETCH_PLAYERS_SUCCESS } from '../actions/types';
 
 function mergePlayers(state, { players }) {
   const newState = { ...state };

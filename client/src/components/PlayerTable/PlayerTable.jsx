@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connectAdvanced } from 'react-redux';
 import shallowEqual from 'shallowequal';
 
-import { COUNTRIES } from '../constants';
-import { fetchPlayersSuccess } from '../appState/actions';
+import { COUNTRIES } from '../../constants';
+import { fetchPlayersSuccess } from '../../actions/actions';
 
 import './PlayerTable.scss';
 import TableHeader from './TableHeader';

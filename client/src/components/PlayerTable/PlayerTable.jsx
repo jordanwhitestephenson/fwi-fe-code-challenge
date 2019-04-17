@@ -22,10 +22,13 @@ class PlayerTable extends PureComponent {
     ).isRequired,
     fetchPlayersSuccess: PropTypes.func.isRequired,
   };
-
+  state = {
+    players: '',
+    showPlayers: false,
+  };
   componentDidMount() {
     const { fetchPlayersSuccess } = this.props;
-    fetch('http://localhost:3001/players', {
+    fetch('http://localhost:3001/players?size=10', {
       headers: {
         Accept: 'application/json',
       },
@@ -41,20 +44,30 @@ class PlayerTable extends PureComponent {
         throw new Error(data.message);
       });
   }
-
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.players !== this.state.players) {
+      this.setState({
+        players: nextProps.players,
+      });
+    }
+  }
   render() {
     const { players } = this.props;
-    return (
-      <div
-        id="player-table-grid"
-        role="grid"
-        aria-label="Poker Players"
-        className="player-table"
-      >
-        <TableHeader />
-        <TableBody players={players} />
-      </div>
-    );
+    if (this.state.players) {
+      return (
+        <div
+          id="player-table-grid"
+          role="grid"
+          aria-label="Poker Players"
+          className="player-table"
+        >
+          <TableHeader />
+          <TableBody players={players} showPlayers={this.state.showPlayers} />
+        </div>
+      );
+    } else {
+      return <div>Loading...</div>;
+    }
   }
 }
 
@@ -64,7 +77,6 @@ export default connectAdvanced(dispatch => {
 
   return (state, props) => {
     const players = state.playerIds.map(id => state.players[id]);
-
     const nextResult = { ...props, ...actions, players };
 
     if (!shallowEqual(result, nextResult)) {

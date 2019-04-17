@@ -7,26 +7,25 @@ function mergePlayers(state, { players }) {
   });
   return newState;
 }
-
-function removePlayer(state, { players }) {
-  const newState = { ...state };
-  console.log(players, 'PLAYER');
-  // players.filter(player => player)
+function deletePlayer(state, id) {
+  let objectId = { id };
+  const newState = Object.keys(state).reduce((object, key) => {
+    if (key !== id) {
+      object[key] = state[key];
+    }
+    return object;
+  }, {});
+  return newState;
 }
 
 export default function players(state = {}, action) {
   switch (action.type) {
     case FETCH_PLAYERS_SUCCESS:
       return mergePlayers(state, action.payload.data);
-    case DELETE_PLAYER:
-      console.log(state, 'STATE****');
-      const newState = Object.assign([], state);
-      const indexOfPlayerToDelete = newState.findIndex(player => {
-        return player == action.payload.data;
-      });
 
-      newState.splice(indexOfPlayerToDelete, 1);
-      return newState;
+    case DELETE_PLAYER:
+      return deletePlayer(state, action.payload.data);
+
     default:
       return state;
   }

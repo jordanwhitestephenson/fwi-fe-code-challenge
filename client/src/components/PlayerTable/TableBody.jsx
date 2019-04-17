@@ -13,23 +13,33 @@ class TableBody extends React.Component {
       players: '',
       showPlayer: false,
       playerID: '',
+      showPlayers: '',
     };
   }
   componentWillMount(props) {
     this.setState({
       players: this.props.players,
+      showPlayers: this.props.showPlayers,
     });
   }
+
   handleListItemClick = (event, index) => {
     this.setState({
-      showPlayer: !this.state.showPlayer,
+      showPlayers: !this.state.showPlayers,
       playerID: event.target.parentElement.id,
     });
   };
+  showPlayers = () => {
+    this.setState({
+      showPlayers: true,
+      playerID: null,
+    });
+  };
+
   render() {
     return (
       <div>
-        {!this.state.showPlayer ? (
+        {!this.state.showPlayer || this.state.showPlayers ? (
           <table
             id="player-table-body"
             role="presentation"
@@ -72,7 +82,13 @@ class TableBody extends React.Component {
           </table>
         ) : null}
         {this.state.playerID ? (
-          <PlayerView id={this.state.playerID} players={this.props.players} />
+          <div>
+            <PlayerView
+              id={this.state.playerID}
+              pageReturn={this.showPlayers}
+              players={this.props.players}
+            />
+          </div>
         ) : null}
       </div>
     );

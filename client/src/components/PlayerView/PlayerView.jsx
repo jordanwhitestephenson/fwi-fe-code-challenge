@@ -14,7 +14,6 @@ class PlayerView extends React.Component {
     currentUser: '',
   };
   componentDidMount() {
-    console.log(this.props, 'PR');
     const { getPlayer } = this.props;
     fetch(`http://localhost:3001/players/${this.props.id}`, {
       headers: {
@@ -45,36 +44,25 @@ class PlayerView extends React.Component {
   }
   handleDeleteClick = data => {
     this.props.deletePlayer(this.props.id);
-
-    // fetch(`http://localhost:3001/players/${this.props.id}`, {
-    //   method: 'DELETE',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // }).then(response => {
-    //   if (!response.ok) {
-    //     console.error(response.statusText);
-    //   }
-    //   return response;
-    // })
-    // .then(data => {
-    //   if (data) {
-    //     getPlayer(data);
-    //     return data;
-    //   }
-    //   throw new Error(data.message);
-    // });
+    this.props.pageReturn(data);
   };
 
   render() {
-    console.log(this.props, 'UPDATE');
+    const playerObject = Object.keys(this.props.player).length;
     return (
       <div>
-        <PlayerCard
-          data={this.state.currentUser}
-          handleEditClick={this.handleEditClick}
-          handleDeleteClick={this.handleDeleteClick}
-        />
+        {playerObject ? (
+          <div>
+            <PlayerCard
+              pageReturn={this.props.pageReturn}
+              data={this.state.currentUser}
+              handleEditClick={this.handleEditClick}
+              handleDeleteClick={this.handleDeleteClick}
+            />
+          </div>
+        ) : (
+          <div>User Deleted </div>
+        )}
       </div>
     );
   }

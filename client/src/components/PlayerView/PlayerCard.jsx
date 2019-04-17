@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 
 function PlayerCard(props) {
   const { data } = props;
-  console.log();
-
+  const handleExit = () => {
+    props.pageReturn();
+  };
   return (
     <div className="menu-ui" id={data.id}>
+      <button className="back-btn" onClick={handleExit}>
+        Return to Players
+      </button>
       <div className="menu-wrapper">
         <div className="profile-info">
           <div className="profile-img">

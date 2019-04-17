@@ -211,7 +211,24 @@ a {
     }
   }
 }
-
+.back-btn {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 0;
+  align-self: center;
+  background: #61bbae;
+  text-align: center;
+  font: {
+    family: $subFont;
+    size: 15px;
+    weight: 400;
+    color: #fff;
+  }
+  transition: background 250ms ease-in-out;
+  &:hover {
+    background: darken(#dde9ff, 1);
+  }
+}
 .is-list-item-selected {
   background: #fff;
   position: relative;

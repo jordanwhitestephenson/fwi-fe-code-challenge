@@ -1,11 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import EditForm from './EditForm.jsx';
 
 function PlayerCard(props) {
   const { data } = props;
   const handleExit = () => {
     props.pageReturn();
   };
+  const getFormData = data => {
+    props.getFormData(data);
+  };
+
   return (
     <div className="menu-ui" id={data.id}>
       <button className="back-btn" onClick={handleExit}>
@@ -24,14 +29,29 @@ function PlayerCard(props) {
         </div>
 
         <div className="menu-content">
-          <div className="group">
-            <div className="edit-btn" onClick={props.handleEditClick}>
-              Edit User
+          {!props.showEditSection ? (
+            <div className="group">
+              <div className="edit-btn" onClick={props.handleEditClick}>
+                Edit User
+              </div>
+              <div className="logout-btn" onClick={props.handleDeleteClick}>
+                Delete User
+              </div>
+              {/* {props.showEditSection ? <div>Edit</div> : null} */}
             </div>
-            <div className="logout-btn" onClick={props.handleDeleteClick}>
-              Delete User
+          ) : (
+            <div className="edit_form">
+              <EditForm
+                getFormData={getFormData}
+                pageReturn={handleExit}
+                id={data.id}
+                name={data.name}
+                country={data.country}
+                winnings={data.winnings}
+                imageUrl={data.imageUrl}
+              />
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

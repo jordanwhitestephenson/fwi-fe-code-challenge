@@ -1,4 +1,8 @@
-import { FETCH_PLAYERS_SUCCESS, DELETE_PLAYER } from '../actions/types';
+import {
+  FETCH_PLAYERS_SUCCESS,
+  DELETE_PLAYER,
+  EDIT_PLAYER,
+} from '../actions/types';
 
 function mergePlayers(state, { players }) {
   const newState = { ...state };
@@ -8,9 +12,20 @@ function mergePlayers(state, { players }) {
   return newState;
 }
 function deletePlayer(state, id) {
-  let objectId = { id };
   const newState = Object.keys(state).reduce((object, key) => {
     if (key !== id) {
+      object[key] = state[key];
+    }
+    return object;
+  }, {});
+  return newState;
+}
+function editPlayer(state, data) {
+  const newState = Object.keys(state).reduce((object, key) => {
+    if (key === data.id) {
+      object[key] = data;
+    }
+    if (key !== data.id) {
       object[key] = state[key];
     }
     return object;
@@ -25,7 +40,9 @@ export default function players(state = {}, action) {
 
     case DELETE_PLAYER:
       return deletePlayer(state, action.payload.data);
-
+    case EDIT_PLAYER:
+      const data = action.payload.data;
+      return editPlayer(state, data);
     default:
       return state;
   }

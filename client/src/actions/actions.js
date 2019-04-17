@@ -3,6 +3,7 @@ import {
   ADD_PLAYER,
   GET_PLAYER,
   DELETE_PLAYER,
+  EDIT_PLAYER,
 } from './types';
 
 export function fetchPlayersSuccess(data) {
@@ -18,4 +19,9 @@ export function getPlayer(data) {
 
 export function deletePlayer(data) {
   return { type: DELETE_PLAYER, payload: { data } };
+}
+
+export function editPlayer(id, data) {
+  console.log(data, 'EDIT_PLAYER ACTION');
+  return { type: EDIT_PLAYER, payload: { id, data } };
 }

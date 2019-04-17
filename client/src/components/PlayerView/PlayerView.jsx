@@ -3,15 +3,15 @@ import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connectAdvanced } from 'react-redux';
 import shallowEqual from 'shallowequal';
-import { getPlayer, deletePlayer } from '../../actions/actions';
+import { getPlayer, deletePlayer, editPlayer } from '../../actions/actions';
 import PlayerCard from './PlayerCard';
 import './PlayerCard.scss';
-import { DELETE_PLAYER } from '../../actions/types';
 
 class PlayerView extends React.Component {
   state = {
     open: false,
     currentUser: '',
+    showEditSection: false,
   };
   componentDidMount() {
     const { getPlayer } = this.props;
@@ -34,9 +34,7 @@ class PlayerView extends React.Component {
         throw new Error(data.message);
       });
   }
-  handleEditClick = data => {
-    console.log(data);
-  };
+
   componentWillReceiveProps(nextProps, nextContext) {
     this.setState({
       currentUser: nextProps,
@@ -45,6 +43,15 @@ class PlayerView extends React.Component {
   handleDeleteClick = data => {
     this.props.deletePlayer(this.props.id);
     this.props.pageReturn(data);
+  };
+
+  handleEditClick = data => {
+    this.setState({
+      showEditSection: true,
+    });
+  };
+  getFormData = data => {
+    this.props.editPlayer(this.props.id, data);
   };
 
   render() {
@@ -58,6 +65,8 @@ class PlayerView extends React.Component {
               data={this.state.currentUser}
               handleEditClick={this.handleEditClick}
               handleDeleteClick={this.handleDeleteClick}
+              showEditSection={this.state.showEditSection}
+              getFormData={this.getFormData}
             />
           </div>
         ) : (
@@ -74,7 +83,10 @@ PlayerView.propTypes = {
 
 export default connectAdvanced(dispatch => {
   let result;
-  const actions = bindActionCreators({ getPlayer, deletePlayer }, dispatch);
+  const actions = bindActionCreators(
+    { getPlayer, deletePlayer, editPlayer },
+    dispatch
+  );
   return (state, props) => {
     const player = state.player;
     const players = state.players;

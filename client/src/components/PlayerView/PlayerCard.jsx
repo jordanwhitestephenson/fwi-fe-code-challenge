@@ -10,10 +10,10 @@ function PlayerCard(props) {
   const getFormData = data => {
     props.getFormData(data);
   };
-
+  // #19b188
   return (
     <div className="menu-ui" id={data.id}>
-      <button className="back-btn" onClick={handleExit}>
+      <button className="button back-btn" onClick={handleExit}>
         Return to Players
       </button>
       <div className="menu-wrapper">
@@ -31,10 +31,13 @@ function PlayerCard(props) {
         <div className="menu-content">
           {!props.showEditSection ? (
             <div className="group">
-              <div className="edit-btn" onClick={props.handleEditClick}>
+              <div className="edit-btn button" onClick={props.handleEditClick}>
                 Edit User
               </div>
-              <div className="logout-btn" onClick={props.handleDeleteClick}>
+              <div
+                className="logout-btn button"
+                onClick={props.handleDeleteClick}
+              >
                 Delete User
               </div>
             </div>
@@ -57,8 +60,8 @@ function PlayerCard(props) {
   );
 }
 
-PlayerCard.propTypes = {
-  class: PropTypes.object.isRequired,
-};
+// PlayerCard.propTypes = {
+//   class: PropTypes.object.isRequired,
+// };
 
 export default PlayerCard;

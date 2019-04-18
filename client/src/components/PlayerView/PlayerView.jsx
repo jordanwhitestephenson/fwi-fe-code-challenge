@@ -41,8 +41,17 @@ class PlayerView extends React.Component {
     });
   }
   handleDeleteClick = data => {
-    this.props.deletePlayer(this.props.id);
-    this.props.pageReturn(data);
+    fetch(`http://localhost:3001/players/${this.props.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(res => {
+        this.props.deletePlayer(this.props.id);
+        this.props.pageReturn(data);
+      })
+      .catch(err => console.log(err));
   };
 
   handleEditClick = data => {
@@ -78,7 +87,8 @@ class PlayerView extends React.Component {
 }
 
 PlayerView.propTypes = {
-  classes: PropTypes.object.isRequired,
+  editPlayer: PropTypes.func.isRequired,
+  deletePlayer: PropTypes.func,
 };
 
 export default connectAdvanced(dispatch => {

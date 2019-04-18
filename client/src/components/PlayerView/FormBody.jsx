@@ -32,21 +32,32 @@ class FormBody extends React.Component {
   handleSaveEdit(e) {
     e.preventDefault();
     //If form is going to be used for a player already existing
-    const name = this.state.name;
     const countryCode = this.state.country;
     const winningsInput = this.state.winnings;
     if (this.props.id) {
-      const data = {
-        id: this.props.id,
-        name: this.state.name,
-        country: countryCode,
+      let data = {
+        name: this.state.name.toString(),
+        country: countryCode.toString(),
         winnings: this.state.winnings,
-        imageUrl: this.state.imageUrl,
+        imageUrl: this.state.imageUrl.toString(),
       };
-      this.props.pageReturn();
-      this.props.getFormData(data);
+      fetch(`http://localhost:3001/players/${this.props.id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then(res => {
+          this.props.pageReturn();
+          return res.json();
+        })
+        .then(result => {
+          this.props.getFormData(result);
+        })
+        .catch(err => console.log(err));
     } else {
-      var data = {
+      let data = {
         name: this.state.name.toString(),
         country: this.state.country.toString(),
         winnings: this.state.winnings,
@@ -56,7 +67,8 @@ class FormBody extends React.Component {
           countryCodeError: 'Please enter a correct Country Code',
         });
       }
-      if (!winningsInput || typeof winningsInput !== 'number') {
+
+      if (!winningsInput || typeof parseInt(winningsInput) !== 'number') {
         this.setState({
           winningError: 'Please enter correct winnings input',
         });
@@ -89,57 +101,60 @@ class FormBody extends React.Component {
 
   render() {
     return (
-      <div class="form">
+      <div className="form">
         {this.state.error}
-        <div class="tab-content">
+        <div className="tab-content">
           <div id="signup">
             <h1>{this.props.formName}</h1>
             <div>
-              <div class="top-row field-wrap">
-                <div class="">
+              <div className="top-row field-wrap">
+                <div className="">
                   <label>Name</label>
                   <input
                     name="name"
-                    value={this.state.name}
+                    value={this.state.name || ''}
                     onChange={this.onChange}
                     required
-                    autocomplete="off"
+                    autoComplete="on"
                   />
                 </div>
               </div>
-              <div class="field-wrap">
+              <div className="field-wrap">
                 {this.state.countryCodeError}
                 <label>Country</label>
                 <input
                   name="country"
-                  value={this.state.country}
+                  value={this.state.country || ''}
                   onChange={this.onChange}
                   required
-                  autocomplete="off"
+                  autoComplete="on"
                 />
               </div>
-              <div class="field-wrap">
+              <div className="field-wrap">
                 {this.state.winningError}
                 <label>Winnings</label>
                 <input
                   name="winnings"
-                  value={this.state.winnings}
+                  value={this.state.winnings || ''}
                   onChange={this.onChange}
                   required
-                  autocomplete="off"
+                  autoComplete="on"
                 />
               </div>
-              <div class="field-wrap">
+              <div className="field-wrap">
                 <label>imageUrl</label>
                 <input
                   name="imageUrl"
-                  value={this.state.imageUrl}
+                  value={this.state.imageUrl || ''}
                   onChange={this.onChange}
                   required
-                  autocomplete="off"
+                  autoComplete="on"
                 />
               </div>
-              <button onClick={this.handleSaveEdit} class="button button-block">
+              <button
+                onClick={this.handleSaveEdit}
+                className="button button-block"
+              >
                 Save
               </button>
             </div>
@@ -150,24 +165,7 @@ class FormBody extends React.Component {
   }
 }
 FormBody.propTypes = {
-  classes: PropTypes.object.isRequired,
+  pageReturn: PropTypes.func.isRequired,
 };
 
 export default FormBody;
-// export default connectAdvanced(dispatch => {
-//   let result;
-//   const actions = bindActionCreators(
-//     { getPlayer, deletePlayer, editPlayer },
-//     dispatch
-//   );
-//   return (state, props) => {
-//     const player = state.player;
-//     const players = state.players;
-//     const nextResult = { ...props, ...actions, player, players };
-
-//     if (!shallowEqual(result, nextResult)) {
-//       result = nextResult;
-//     }
-//     return result;
-//   };
-// })(PlayerView);

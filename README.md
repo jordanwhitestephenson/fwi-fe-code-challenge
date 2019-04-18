@@ -96,9 +96,9 @@ added any additional steps.
 
 ### Challenge Checklist
 
-- [ ] Create Player
-- [ ] Modify Player
-- [ ] Delete Player
+- [X] Create Player
+- [X] Modify Player
+- [X] Delete Player
 - [ ] Implement sorting (optional)
 - [ ] Lazy loading/pagination (optional)
 - [ ] Tests (optional)

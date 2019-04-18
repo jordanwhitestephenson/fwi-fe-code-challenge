@@ -22,6 +22,5 @@ export function deletePlayer(data) {
 }
 
 export function editPlayer(id, data) {
-  console.log(data, 'EDIT_PLAYER ACTION');
   return { type: EDIT_PLAYER, payload: { id, data } };
 }

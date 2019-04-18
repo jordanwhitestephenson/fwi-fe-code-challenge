@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import EditForm from './EditForm.jsx';
+import FormBody from './FormBody.jsx';
 
 function PlayerCard(props) {
   const { data } = props;
@@ -37,11 +37,10 @@ function PlayerCard(props) {
               <div className="logout-btn" onClick={props.handleDeleteClick}>
                 Delete User
               </div>
-              {/* {props.showEditSection ? <div>Edit</div> : null} */}
             </div>
           ) : (
             <div className="edit_form">
-              <EditForm
+              <FormBody
                 getFormData={getFormData}
                 pageReturn={handleExit}
                 id={data.id}

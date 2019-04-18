@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connectAdvanced } from 'react-redux';
 import shallowEqual from 'shallowequal';
 import { COUNTRIES } from '../../constants';
-import { fetchPlayersSuccess } from '../../actions/actions';
+import { fetchPlayersSuccess, addPlayer } from '../../actions/actions';
 import './PlayerTable.scss';
 import TableHeader from './TableHeader';
 import TableBody from './TableBody';
@@ -62,7 +62,11 @@ class PlayerTable extends PureComponent {
           className="player-table"
         >
           <TableHeader />
-          <TableBody players={players} showPlayers={this.state.showPlayers} />
+          <TableBody
+            players={players}
+            addPlayer={this.props.addPlayer}
+            showPlayers={this.state.showPlayers}
+          />
         </div>
       );
     } else {
@@ -73,7 +77,10 @@ class PlayerTable extends PureComponent {
 
 export default connectAdvanced(dispatch => {
   let result;
-  const actions = bindActionCreators({ fetchPlayersSuccess }, dispatch);
+  const actions = bindActionCreators(
+    { fetchPlayersSuccess, addPlayer },
+    dispatch
+  );
 
   return (state, props) => {
     const players = state.playerIds.map(id => state.players[id]);

@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './EditForm.scss';
+import { reduxForm, Field } from 'redux-form';
 
-class EditForm extends React.Component {
+class FormBody extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -98,7 +99,7 @@ class EditForm extends React.Component {
   }
 }
 
-EditForm.propTypes = {
+FormBody.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
@@ -119,4 +120,4 @@ EditForm.propTypes = {
 //     return result;
 //   };
 // })(PlayerView);
-export default EditForm;
+export default FormBody;

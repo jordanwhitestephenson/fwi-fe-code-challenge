@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './EditForm.scss';
-import { default as UUID } from 'node-uuid';
+import { COUNTRIES } from '../../constants';
 
 class FormBody extends React.Component {
   constructor(props) {
@@ -31,14 +31,18 @@ class FormBody extends React.Component {
   }
   handleSaveEdit(e) {
     e.preventDefault();
+    let countryList = Object.keys(COUNTRIES);
+    let correctCountry = countryList.includes(this.state.country);
+    let countryCode = this.state.country;
+    let name = this.state.name;
+    let winningsInput = this.state.winnings;
+
     //If form is going to be used for a player already existing
-    const countryCode = this.state.country;
-    const winningsInput = this.state.winnings;
-    if (this.props.id) {
+    if (this.props.id && correctCountry) {
       let data = {
-        name: this.state.name.toString(),
-        country: countryCode.toString(),
-        winnings: this.state.winnings,
+        name: name.toString(),
+        country: countryCode.toUpperCase().toString(),
+        winnings: winningsInput,
         imageUrl: this.state.imageUrl.toString(),
       };
       fetch(`http://localhost:3001/players/${this.props.id}`, {
@@ -57,24 +61,17 @@ class FormBody extends React.Component {
         })
         .catch(err => console.log(err));
     } else {
-      let data = {
-        name: this.state.name.toString(),
-        country: this.state.country.toString(),
-        winnings: this.state.winnings,
-      };
-      if (!countryCode || countryCode.length > 2 || countryCode.length === 1) {
+      if (!correctCountry) {
         this.setState({
-          countryCodeError: 'Please enter a correct Country Code',
-        });
-      }
-
-      if (!winningsInput || typeof parseInt(winningsInput) !== 'number') {
-        this.setState({
-          winningError: 'Please enter correct winnings input',
+          countryCodeError: 'Country Code is invalid',
         });
       } else {
+        let data = {
+          name: this.state.name.toString(),
+          country: this.state.country.toUpperCase().toString(),
+          winnings: this.state.winnings,
+        };
         this.setState({
-          winningError: null,
           countryCodeError: null,
         });
         fetch('http://localhost:3001/players/', {
@@ -85,10 +82,10 @@ class FormBody extends React.Component {
           body: JSON.stringify(data),
         })
           .then(res => {
-            this.props.pageReturn();
             return res.json();
           })
           .then(text => {
+            this.props.pageReturn();
             this.props.addPlayer(text);
           })
           .catch(err => {
@@ -101,7 +98,7 @@ class FormBody extends React.Component {
 
   render() {
     return (
-      <div className="form">
+      <form className="form" onSubmit={this.handleSaveEdit}>
         {this.state.error}
         <div className="tab-content">
           <div id="signup">
@@ -124,6 +121,8 @@ class FormBody extends React.Component {
                 <label>Country</label>
                 <input
                   name="country"
+                  maxLength="2"
+                  type="text"
                   value={this.state.country || ''}
                   onChange={this.onChange}
                   required
@@ -138,6 +137,7 @@ class FormBody extends React.Component {
                   value={this.state.winnings || ''}
                   onChange={this.onChange}
                   required
+                  type="number"
                   autoComplete="on"
                 />
               </div>
@@ -147,20 +147,16 @@ class FormBody extends React.Component {
                   name="imageUrl"
                   value={this.state.imageUrl || ''}
                   onChange={this.onChange}
-                  required
                   autoComplete="on"
                 />
               </div>
-              <button
-                onClick={this.handleSaveEdit}
-                className="button button-block"
-              >
+              <button type="submit" className="button button-block">
                 Save
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </form>
     );
   }
 }

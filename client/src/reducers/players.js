@@ -41,6 +41,7 @@ function addPlayer(state, data) {
     winnings: parseInt(data.winnings),
     country: data.country,
     id: data.id,
+    imageUrl: data.imageUrl,
   };
   Object.assign(newState, { [data.id]: newData });
   return newState;
